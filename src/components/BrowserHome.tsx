@@ -40,12 +40,29 @@ export default function BrowserHome({ theme, userName, homeLinks, onSearch, onQu
     <div className={`browser-home theme-${theme}`}>
       <div className="home-glow" />
       <div className="home-card">
-        <div className="home-row">
+        <div className="home-header">
           <div>
-            <div className="home-badge">SOULS</div>
+            <div className="home-badge">ESSENCE</div>
             <h1>{greeting}</h1>
             <p>Tu navegador personal con accesos directos y apariencia inteligente.</p>
           </div>
+          <div className="home-chip-group">
+            <span>Modo Pulse</span>
+            <span>Privacidad</span>
+            <span>Multi-tarea</span>
+          </div>
+        </div>
+
+        <div className="home-actions">
+          <button type="button" className="home-action" onClick={() => onQuickNavigate('https://www.google.com')}>
+            Buscar ideas
+          </button>
+          <button type="button" className="home-action" onClick={() => onQuickNavigate('https://github.com')}>
+            Explorar código
+          </button>
+          <button type="button" className="home-action" onClick={() => onQuickNavigate('https://tauri.app')}>
+            Ver docs Tauri
+          </button>
         </div>
 
         <form className="home-search" onSubmit={handleSubmit}>

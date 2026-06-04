@@ -4,6 +4,7 @@ import MenuPanel from './MenuPanel';
 interface ToolbarProps {
   urlInput: string;
   setUrlInput: (val: string) => void;
+  currentPage: string;
   onNavigate: (e: React.FormEvent) => void;
   onHome: () => void;
   onReload: () => void;
@@ -26,6 +27,7 @@ interface ToolbarProps {
 export default function Toolbar({
   urlInput,
   setUrlInput,
+  currentPage,
   onNavigate,
   onHome,
   onReload,
@@ -46,6 +48,10 @@ export default function Toolbar({
 }: ToolbarProps) {
   return (
     <div className="toolbar">
+      <div className="toolbar-brand">
+        <div className="brand-chip">Essence</div>
+        <div className="brand-label">{currentPage}</div>
+      </div>
       <button className="nav-btn" title="Atrás" onClick={onBack} disabled={!canGoBack}>
         <ArrowLeft size={18} />
       </button>

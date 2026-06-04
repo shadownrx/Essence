@@ -286,6 +286,7 @@ function App() {
         <Toolbar
           urlInput={urlInput}
           setUrlInput={setUrlInput}
+          currentPage={activeTab?.title ?? 'Essence'}
           onNavigate={handleNavigate}
           onHome={handleHome}
           onReload={handleReload}

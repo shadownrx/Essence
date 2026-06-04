@@ -21,6 +21,12 @@ La aplicación se ejecuta dentro de una ventana Tauri llamada `Essence` y usa un
 - Caja fuerte segura (`Secure Vault`) que cifra notas con AES-GCM.
 - Integración nativa Tauri para navegar, recargar, abrir URLs externas y redimensionar el WebView.
 
+## 📸 Capturas de pantalla
+
+| Navegador Essence | Ajustes | Caja fuerte |
+| --- | --- | --- |
+| ![Essence preview](img/Essence.png) | ![Ajustes](img/Ajustes.png) | ![Secure Vault](img/SecureVault.png) |
+
 ## 🧩 Estructura del proyecto
 
 - `src/` - Código frontend de React.
