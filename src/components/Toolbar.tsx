@@ -5,6 +5,7 @@ interface ToolbarProps {
   urlInput: string;
   setUrlInput: (val: string) => void;
   currentPage: string;
+  isVibeMode: boolean;
   onNavigate: (e: React.FormEvent) => void;
   onHome: () => void;
   onReload: () => void;
@@ -28,6 +29,7 @@ export default function Toolbar({
   urlInput,
   setUrlInput,
   currentPage,
+  isVibeMode,
   onNavigate,
   onHome,
   onReload,
@@ -51,6 +53,7 @@ export default function Toolbar({
       <div className="toolbar-brand">
         <div className="brand-chip">Essence</div>
         <div className="brand-label">{currentPage}</div>
+        {isVibeMode && <div className="vibe-status">Vibe Mode</div>}
       </div>
       <button className="nav-btn" title="Atrás" onClick={onBack} disabled={!canGoBack}>
         <ArrowLeft size={18} />
@@ -74,7 +77,7 @@ export default function Toolbar({
           onChange={(e) => setUrlInput(e.target.value)}
           placeholder="Buscar en la web o escribir URL"
         />
-        <span title="A�adir a Marcadores" style={{ cursor: 'pointer', display: 'flex' }}>
+        <span title="Añadir a Marcadores" style={{ cursor: 'pointer', display: 'flex' }}>
           <Star size={16} color="var(--text-muted)" />
         </span>
       </form>

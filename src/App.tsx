@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback, FormEvent } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { invoke } from '@tauri-apps/api/core';
+import { listen, UnlistenFn } from '@tauri-apps/api/event';
 import './App.css';
 
 import TabBar, { Tab } from './components/TabBar';
@@ -26,6 +27,7 @@ function App() {
   const [sidebarMode, setSidebarMode] = useState<'vault' | 'settings'>('vault');
   const [isNavBusy, setIsNavBusy] = useState(false);
   const [theme, setTheme] = useState<Theme>('ultra');
+  const [isVibeMode, setIsVibeMode] = useState(false);
   const [userName, setUserName] = useState('');
   const [homeLinks, setHomeLinks] = useState<HomeLink[]>([
     { id: 'google', title: 'Google', url: 'https://www.google.com', description: 'Buscar lo que necesitas.' },
@@ -81,6 +83,22 @@ function App() {
     return () => document.removeEventListener('mousedown', handleMenuClickOutside);
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    let unlisten: UnlistenFn | null = null;
+
+    listen<string>('browser-url-changed', (event) => {
+      setIsVibeMode(isYouTubePage(event.payload));
+    }).then((fn) => {
+      unlisten = fn;
+    });
+
+    return () => {
+      if (unlisten) {
+        unlisten();
+      }
+    };
+  }, []);
+
   const normalizeUrl = (raw: string): string => {
     const trimmed = raw.trim();
     if (!trimmed) return 'https://www.google.com';
@@ -107,9 +125,14 @@ function App() {
     return /(?:youtube\.com\/watch|music\.youtube\.com|open\.spotify\.com|soundcloud\.com|bandcamp\.com)/i.test(url);
   };
 
+  const isYouTubePage = (url: string) => {
+    return /(?:youtube\.com|youtu\.be)/i.test(url);
+  };
+
   const navigateToUrl = async (finalUrl: string, title?: string, recordHistory = true) => {
     const tabTitle = finalUrl === HOME_URL ? 'Inicio' : title ?? getTabTitle(finalUrl);
     setUrlInput(finalUrl === HOME_URL ? '' : finalUrl);
+    setIsVibeMode(isYouTubePage(finalUrl));
     setTabs(prev => prev.map(t => {
       if (!t.isActive) return t;
       const updatedTab = {
@@ -272,8 +295,12 @@ function App() {
     handleCloseMenu();
   };
 
+  useEffect(() => {
+    setIsVibeMode(activeTab ? isYouTubePage(activeTab.url) : false);
+  }, [activeTab]);
+
   return (
-    <div className="browser-app">
+    <div className={`browser-app ${isVibeMode ? 'vibe-mode' : ''}`}>
       <div ref={tabBarRef}>
         <TabBar
           tabs={tabs}
@@ -303,8 +330,7 @@ function App() {
           onMenuClose={handleCloseMenu}
           onOpenVault={handleOpenVault}
           onOpenSettings={handleOpenSettings}
-          onNewTab={handleNewTab}
-        />
+          onNewTab={handleNewTab}          isVibeMode={isVibeMode}        />
       </div>
       <div className="workspace">
         {activeTab?.url === HOME_URL && (

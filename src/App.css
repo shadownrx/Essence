@@ -153,6 +153,47 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.vibe-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #b5f4ff;
+  background: rgba(79, 216, 255, 0.14);
+  border: 1px solid rgba(79, 216, 255, 0.24);
+}
+
+.browser-app.vibe-mode .toolbar {
+  background: linear-gradient(135deg, rgba(29, 40, 81, 0.95), rgba(15, 23, 58, 0.96));
+  border-color: rgba(79, 216, 255, 0.18);
+}
+
+.browser-app.vibe-mode .tab.active {
+  background: linear-gradient(135deg, rgba(103, 55, 255, 0.22), rgba(79, 216, 255, 0.2));
+  box-shadow: 0 14px 30px rgba(79, 216, 255, 0.12);
+}
+
+.browser-app.vibe-mode .home-card {
+  background: rgba(9, 15, 33, 0.95);
+  border-color: rgba(79, 216, 255, 0.18);
+}
+
+.browser-app.vibe-mode .home-search,
+.browser-app.vibe-mode .address-bar {
+  border-color: rgba(79, 216, 255, 0.24);
+  background: rgba(15, 22, 50, 0.96);
+}
+
+.browser-app.vibe-mode .home-tile:hover,
+.browser-app.vibe-mode .menu-item:hover,
+.browser-app.vibe-mode .nav-btn:hover {
+  background: rgba(79, 216, 255, 0.14);
+}
+
 .brand-chip {
   display: inline-flex;
   align-items: center;

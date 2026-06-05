@@ -1,6 +1,6 @@
 use aes_gcm::{Aes256Gcm, Key, aead::{Aead, KeyInit, OsRng}, aead::generic_array::GenericArray};
 use rand::RngCore;
-use tauri::{Manager, WebviewUrl, webview::WebviewBuilder};
+use tauri::{Emitter, Manager, WebviewUrl, webview::WebviewBuilder};
 use tauri::command;
 use tauri_plugin_opener::OpenerExt;
 
@@ -86,11 +86,18 @@ pub fn run() {
     let main_window = app.get_webview_window("main").unwrap();
     let window = main_window.as_ref().window();
 
-    window.add_child(
-        WebviewBuilder::new(
+    let browser_window = WebviewBuilder::new(
             "browser",
             WebviewUrl::External("about:blank".parse().unwrap()),
-        ),
+        )
+        .on_navigation(move |url| {
+            let href = url.to_string();
+            let _ = main_window.emit_str("browser-url-changed", href);
+            true
+        });
+
+    window.add_child(
+        browser_window,
         tauri::LogicalPosition::new(0.0, 88.0),
         tauri::LogicalSize::new(1280.0, 712.0),
     )?;
